@@ -25,5 +25,10 @@
   "estimatedVmHourlyUsd": 0.188,
   "estimatedPremiumP10MonthlyUsd": 17.92,
   "estimatedPremiumP10MountMonthlyUsd": 0.91,
-  "smokeTestedUtc": "2026-05-26T14:38:00.4144671Z"
+  "smokeTestedUtc": "2026-05-26T14:38:00.4144671Z",
+  "bastionHost": "bastion-ssis-demo",
+  "bastionResourceGroup": "rg-ssis2fabric-demo",
+  "bastionSubnet": "10.31.1.0/26",
+  "bastionPublicIp": "pip-bastion-ssis",
+  "bastionProvisionedUtc": "2026-05-26T21:27:10Z"
 }
