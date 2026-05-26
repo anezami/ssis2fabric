@@ -1,0 +1,12 @@
+[
+  {
+    "name": "ProductsCsv",
+    "type": "FLATFILE",
+    "project_level": false
+  },
+  {
+    "name": "SalesDwConn",
+    "type": "OLEDB",
+    "project_level": false
+  }
+]

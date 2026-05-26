@@ -1,0 +1,10 @@
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+TABLES (3)
+------------------------------------------------------------------------
+  Name                                                 Cols  Notes
+------------------------------------------------------------------------
+  [dim].[DimCustomer]                                     8  
+  [dim].[DimProduct]                                      7  
+  [fact].[FactOrders]                                     6  

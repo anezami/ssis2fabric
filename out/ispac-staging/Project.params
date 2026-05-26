@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SSIS:Parameters xmlns:SSIS="www.microsoft.com/SqlServer/SSIS">
+  <SSIS:Parameter SSIS:Name="SalesSrcConn_ConnectionString">
+    <SSIS:Properties>
+      <SSIS:Property SSIS:Name="ID">{a0000001-0000-0000-0000-000000000001}</SSIS:Property>
+      <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+      <SSIS:Property SSIS:Name="Required">true</SSIS:Property>
+      <SSIS:Property SSIS:Name="Sensitive">false</SSIS:Property>
+      <SSIS:Property SSIS:Name="Value">Data Source=localhost;Initial Catalog=SalesSrc;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+      <SSIS:Property SSIS:Name="Description">OLE DB connection string to source OLTP database SalesSrc.</SSIS:Property>
+    </SSIS:Properties>
+  </SSIS:Parameter>
+  <SSIS:Parameter SSIS:Name="SalesDwConn_ConnectionString">
+    <SSIS:Properties>
+      <SSIS:Property SSIS:Name="ID">{a0000001-0000-0000-0000-000000000002}</SSIS:Property>
+      <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+      <SSIS:Property SSIS:Name="Required">true</SSIS:Property>
+      <SSIS:Property SSIS:Name="Sensitive">false</SSIS:Property>
+      <SSIS:Property SSIS:Name="Value">Data Source=localhost;Initial Catalog=SalesDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+      <SSIS:Property SSIS:Name="Description">OLE DB connection string to target DW database SalesDW.</SSIS:Property>
+    </SSIS:Properties>
+  </SSIS:Parameter>
+  <SSIS:Parameter SSIS:Name="ProductsCsv_Path">
+    <SSIS:Properties>
+      <SSIS:Property SSIS:Name="ID">{a0000001-0000-0000-0000-000000000003}</SSIS:Property>
+      <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+      <SSIS:Property SSIS:Name="Required">true</SSIS:Property>
+      <SSIS:Property SSIS:Name="Sensitive">false</SSIS:Property>
+      <SSIS:Property SSIS:Name="Value">C:\ssisdemo\data\products_incoming.csv</SSIS:Property>
+      <SSIS:Property SSIS:Name="Description">Absolute path on the VM to the incoming products CSV.</SSIS:Property>
+    </SSIS:Properties>
+  </SSIS:Parameter>
+</SSIS:Parameters>

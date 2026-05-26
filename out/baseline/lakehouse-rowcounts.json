@@ -1,0 +1,12 @@
+{
+  "flavor": "B - Fabric Lakehouse + PySpark",
+  "endpoint": "2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com",
+  "database": "lh_ssis_demo",
+  "notebookId": "7d805094-17be-46b1-949d-aa710324f393",
+  "rowCounts": {
+    "dim_customer": 500,
+    "dim_product": 100,
+    "fact_orders": 2000
+  },
+  "capturedUtc": "2026-05-26T17:14:27.1569951Z"
+}

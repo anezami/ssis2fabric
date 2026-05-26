@@ -1,0 +1,14 @@
+[
+  {
+    "task": "DFT_LoadOrders",
+    "component": "OLE_SRC_Orders",
+    "property": "SqlCommand",
+    "sql": "SELECT OrderID, CustomerID, OrderDate, TotalAmount, Status FROM dbo.Orders;"
+  },
+  {
+    "task": "DFT_LoadOrders",
+    "component": "LKP_CustomerKey",
+    "property": "SqlCommand",
+    "sql": "SELECT CustomerID, CustomerKey FROM dim.DimCustomer WHERE IsCurrent = 1;"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "assignments": [
+    {
+      "assignment_id": "a1-2026-05-26",
+      "universe": "severance",
+      "created_at": "2026-05-26",
+      "members": ["Mark", "Cobel", "Irving", "Dylan", "Helly"],
+      "project": "ssis2fabric"
+    }
+  ],
+  "universe_lru": ["severance"]
+}

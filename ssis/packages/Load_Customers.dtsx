@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable
+  xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2026 12:00:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="HOST"
+  DTS:CreatorName="ssis2fabric"
+  DTS:DTSID="{11111111-1111-1111-1111-111111110001}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3015.40"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_Customers"
+  DTS:PackageType="5"
+  DTS:PackageFormatVersion="8"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{22222222-2222-2222-2222-222222220001}">
+  <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SalesSrcConn]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33333333-3333-3333-3333-333333330001}"
+      DTS:ObjectName="SalesSrcConn">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=SalesSrc;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SalesDwConn]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33333333-3333-3333-3333-333333330002}"
+      DTS:ObjectName="SalesDwConn">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=SalesDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SQL_TruncateDimCustomer"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Truncate target before reload"
+      DTS:DTSID="{44444444-4444-4444-4444-444444440001}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_TruncateDimCustomer"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask"
+          SQLTask:Connection="{33333333-3333-3333-3333-333333330002}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE dim.DimCustomer;" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT_LoadCustomers"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow: source Customers -> DimCustomer"
+      DTS:DTSID="{44444444-4444-4444-4444-444444440002}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT_LoadCustomers">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline version="1">
+          <components>
+            <component
+              refId="Package\DFT_LoadCustomers\OLE_SRC_Customers"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source"
+              description="Reads SalesSrc.Customers JOIN CountryLookup"
+              name="OLE_SRC_Customers"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Access mode"
+                  name="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="SQL command"
+                  name="SqlCommand"><![CDATA[SELECT C.CustomerID, C.FullName, C.Email, CL.CountryName, SYSUTCDATETIME() AS ValidFrom
+FROM dbo.Customers C
+LEFT JOIN dbo.CountryLookup CL ON CL.CountryName = C.Country;]]></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SalesSrcConn]"
+                  connectionManagerRefId="Package.ConnectionManagers[SalesSrcConn]"
+                  description="OLE DB connection to SalesSrc"
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[CustomerID]" dataType="i4" name="CustomerID" lineageId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <outputColumn refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[FullName]" dataType="wstr" length="100" name="FullName" lineageId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[FullName]" />
+                    <outputColumn refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[Email]" dataType="wstr" length="200" name="Email" lineageId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[Email]" />
+                    <outputColumn refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[CountryName]" dataType="wstr" length="50" name="CountryName" lineageId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[CountryName]" />
+                    <outputColumn refId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[ValidFrom]" dataType="dbTimeStamp" name="ValidFrom" lineageId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output].Columns[ValidFrom]" />
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination"
+              description="Writes to SalesDW.dim.DimCustomer"
+              name="OLE_DST_DimCustomer"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property dataType="System.Int32" name="AccessMode">3</property>
+                <property dataType="System.String" name="OpenRowset">[dim].[DimCustomer]</property>
+                <property dataType="System.Int32" name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SalesDwConn]"
+                  connectionManagerRefId="Package.ConnectionManagers[SalesDwConn]"
+                  description="OLE DB connection to SalesDW"
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Destination Input">
+                  <externalMetadataColumns>
+                    <externalMetadataColumn refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]" dataType="i4" name="CustomerID" />
+                    <externalMetadataColumn refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input].ExternalColumns[FullName]" dataType="wstr" length="100" name="FullName" />
+                    <externalMetadataColumn refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input].ExternalColumns[Email]" dataType="wstr" length="200" name="Email" />
+                    <externalMetadataColumn refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input].ExternalColumns[CountryName]" dataType="wstr" length="50" name="CountryName" />
+                    <externalMetadataColumn refId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input].ExternalColumns[ValidFrom]" dataType="dbTimeStamp" name="ValidFrom" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT_LoadCustomers.Paths[Source -> Destination]"
+              startId="Package\DFT_LoadCustomers\OLE_SRC_Customers.Outputs[OLE DB Source Output]"
+              endId="Package\DFT_LoadCustomers\OLE_DST_DimCustomer.Inputs[OLE DB Destination Input]"
+              name="Source -> Destination" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[TruncateThenLoad]"
+      DTS:CreationName=""
+      DTS:DTSID="{55555555-5555-5555-5555-555555550001}"
+      DTS:From="Package\SQL_TruncateDimCustomer"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="TruncateThenLoad"
+      DTS:To="Package\DFT_LoadCustomers" />
+  </DTS:PrecedenceConstraints>
+</DTS:Executable>

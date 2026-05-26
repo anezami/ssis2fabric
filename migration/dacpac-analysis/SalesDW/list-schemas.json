@@ -1,0 +1,7 @@
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+SCHEMAS (2)
+------------------------------------------------------------------------
+  dim                                       authorizer: dbo
+  fact                                      authorizer: dbo

@@ -39,6 +39,10 @@
 **By:** Mark
 **What:** Hand-author three DTSX packages as XML under `ssis/packages/`: (1) `Load_Customers.dtsx` (baseline ETL), (2) `Load_Orders.dtsx` (flat-file + lookup), (3) `Load_Products_Scripted.dtsx` (Script Task). Source: synthetic sales dataset in `SalesSrc` DB (Customers ~1k, Products ~100, OrdersRaw CSV ~50k). Target: `SalesDW` on same instance. All via Windows auth on localhost. Covers baseline mapping, lookups, and Script Task migration risk.
 
+### 2026-05-26: Final validation verdict — both Fabric flavors PASS
+**By:** Helly
+**What:** End-to-end validation approved with notes. Fabric Warehouse and Fabric Lakehouse aggregates match byte-for-byte for DimProduct, DimCustomer, and FactOrders; migration-quality notes are non-blocking correctness observations.
+**Why:** Confirms the demo is ready with both Fabric flavors passing aggregate validation; live VM source re-query remains noted as environment-limited from the reviewer host.
 ## Governance
 
 - All meaningful changes require team consensus

@@ -1,0 +1,10 @@
+[
+  {
+    "task": "DFT_LoadProducts",
+    "component": "SCR_Enrich",
+    "type": "Script Component",
+    "source": {
+      "main.cs": "using System;\nusing Microsoft.SqlServer.Dts.Pipeline.Wrapper;\nusing Microsoft.SqlServer.Dts.Runtime.Wrapper;\n\n[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]\npublic class ScriptMain : UserComponent\n{\n    // Uppercases Sku in place and emits a MarginCategory bucket based on Price.\n    public override void Input0_ProcessInputRow(Input0Buffer Row)\n    {\n        if (!Row.Sku_IsNull)\n        {\n            Row.Sku = Row.Sku.ToUpperInvariant();\n        }\n\n        decimal price = Row.Price_IsNull ? 0m : Row.Price;\n        if (price < 50m)\n        {\n            Row.MarginCategory = \"LOW\";\n        }\n        else if (price < 200m)\n        {\n            Row.MarginCategory = \"MEDIUM\";\n        }\n        else\n        {\n            Row.MarginCategory = \"HIGH\";\n        }\n    }\n}"
+    }
+  }
+]

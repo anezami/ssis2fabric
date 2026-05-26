@@ -1,0 +1,10 @@
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+INDEXES (3)
+------------------------------------------------------------------------
+  Name                                      Object                          Type          Columns
+------------------------------------------------------------------------
+  [dim].[DimCustomer]                       [dim].[DimCustomer]             NONCLUSTERED  CustomerID Ascending
+  [dim].[DimProduct]                        [dim].[DimProduct]              NONCLUSTERED  ProductID Ascending
+  [fact].[FactOrders]                       [fact].[FactOrders]             NONCLUSTERED  CustomerKey Ascending

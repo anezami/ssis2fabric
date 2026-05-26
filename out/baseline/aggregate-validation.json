@@ -1,0 +1,40 @@
+{
+  "WH": {
+    "Fact": {
+      "MaxDt": "2026-05-25T20:00:00.0000000",
+      "AmtSum": "2039990.00",
+      "Cnt": "2000",
+      "MinDt": "2025-05-26T03:00:00.0000000"
+    },
+    "Prod": {
+      "Cnt": "100",
+      "PriceSum": "23199.50"
+    },
+    "Cust": {
+      "Cnt": "500",
+      "CountryCount": "20"
+    }
+  },
+  "VM": {
+    "Fact": {
+      "Error": "A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)"
+    },
+    "Prod": {
+      "Error": "A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)"
+    },
+    "Cust": {
+      "Error": "A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)"
+    }
+  },
+  "LH": {
+    "Fact": {
+      "Error": "Invalid column name 'TotalAmount'.\r\nInvalid column name 'OrderDate'.\r\nInvalid column name 'OrderDate'. \r\n Msg 207, Level 16, State 1, Procedure , Line 1."
+    },
+    "Prod": {
+      "Error": "Invalid column name 'Price'. \r\n Msg 207, Level 16, State 1, Procedure , Line 1."
+    },
+    "Cust": {
+      "Error": "Invalid column name 'CountryName'. \r\n Msg 207, Level 16, State 1, Procedure , Line 1."
+    }
+  }
+}

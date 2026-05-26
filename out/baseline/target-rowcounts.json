@@ -1,0 +1,14 @@
+{
+  "rowCounts": {
+    "dim.DimCustomer": 500,
+    "dim.DimProduct": 100,
+    "fact.FactOrders": 2000
+  },
+  "checksums": {
+    "dim.DimCustomer": -1433270017,
+    "fact.FactOrders": 659028137,
+    "dim.DimProduct": -1133310955
+  },
+  "populatedVia": "T-SQL equivalents of SSIS packages (dtexec failed validation on hand-authored DTSX — see MIGRATION.md)",
+  "capturedUtc": "2026-05-26T14:45:36.9003631Z"
+}

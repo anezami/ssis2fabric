@@ -1,0 +1,31 @@
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+PACKAGE OVERVIEW
+------------------------------------------------------------------------
+  Name:             SalesDW
+  Version:          0.0.0.0
+  Format version:   1.2
+  Schema version:   2.9
+  DSP name:         Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider
+
+  Server version:   Microsoft SQL Server 2022 (RTM-CU24-GDR) (KB5083252) - 16.0.4250.1 (X64) 
+	Mar 13 2026 00:15:17 
+	Copyright (C) 2022 Microsoft Corporation
+	Developer Edition (64-bit) on Windows Server 2022 Datacenter 10.0 <X64> (Build 20348: ) (Hypervisor)
+
+  Product version:  170.3.93.6
+  Exported:         2026-05-26T16:49:33.7826038+02:00
+  DB size:          12,336 KB
+  Total rows:       2,600
+  Contains data:    Yes (BACPAC)
+
+
+SCHEMA SUMMARY
+------------------------------------------------------------------------
+  Schemas                              2
+  Tables                               3
+  Indexes                              3
+  Permissions                          2
+------------------------------------------------------------------------
+  Total                               10

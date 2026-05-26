@@ -1,0 +1,12 @@
+{
+  "flavor": "A - Fabric Warehouse",
+  "endpoint": "2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com",
+  "database": "wh_ssis_demo",
+  "rowCounts": {
+    "dw.DimCustomer": 500,
+    "dw.DimProduct": 100,
+    "dw.FactOrders": 2000
+  },
+  "loadStrategy": "stg.* loaded via pyodbc multi-row INSERT (COPY INTO from OneLake failed: 'Access token could not be fetched for storage path' under sqlcmd-passed AAD token); dw.* populated by EXEC dw.usp_RunAll",
+  "capturedUtc": "2026-05-26T16:54:29.4565016Z"
+}

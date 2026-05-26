@@ -1,0 +1,15 @@
+{
+  "name": "Load_Orders",
+  "format_version": "8",
+  "creator": "ssis2fabric",
+  "description": null,
+  "protection_level": 0,
+  "deployment_model": "Project",
+  "counts": {
+    "connections": 2,
+    "variables": 0,
+    "parameters": 0,
+    "tasks": 1,
+    "data_flows": 1
+  }
+}

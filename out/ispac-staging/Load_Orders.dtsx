@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable
+  xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2026 12:00:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="HOST"
+  DTS:CreatorName="ssis2fabric"
+  DTS:DTSID="{11111111-1111-1111-1111-111111110002}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3015.40"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load_Orders"
+  DTS:PackageType="5"
+  DTS:PackageFormatVersion="8"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{22222222-2222-2222-2222-222222220002}">
+  <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SalesSrcConn]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33333333-3333-3333-3333-333333330003}"
+      DTS:ObjectName="SalesSrcConn">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=SalesSrc;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SalesDwConn]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33333333-3333-3333-3333-333333330004}"
+      DTS:ObjectName="SalesDwConn">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=SalesDW;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT_LoadOrders"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow: Orders -> Lookup CustomerKey -> FactOrders"
+      DTS:DTSID="{44444444-4444-4444-4444-444444440003}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT_LoadOrders">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline version="1">
+          <components>
+            <component
+              refId="Package\DFT_LoadOrders\OLE_SRC_Orders"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source"
+              description="Reads SalesSrc.Orders"
+              name="OLE_SRC_Orders"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property dataType="System.Int32" name="AccessMode">2</property>
+                <property dataType="System.String" name="SqlCommand"><![CDATA[SELECT OrderID, CustomerID, OrderDate, TotalAmount, Status FROM dbo.Orders;]]></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SalesSrcConn]"
+                  connectionManagerRefId="Package.ConnectionManagers[SalesSrcConn]"
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[OrderID]" dataType="i4" name="OrderID" lineageId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[OrderID]" />
+                    <outputColumn refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[CustomerID]" dataType="i4" name="CustomerID" lineageId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <outputColumn refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[OrderDate]" dataType="dbTimeStamp" name="OrderDate" lineageId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <outputColumn refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[TotalAmount]" dataType="numeric" precision="12" scale="2" name="TotalAmount" lineageId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[TotalAmount]" />
+                    <outputColumn refId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[Status]" dataType="wstr" length="20" name="Status" lineageId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[Status]" />
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_LoadOrders\LKP_CustomerKey"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup"
+              description="Resolve CustomerID -> CustomerKey from dim.DimCustomer (IsCurrent=1)"
+              name="LKP_CustomerKey"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property dataType="System.Int32" name="CacheType">1</property>
+                <property dataType="System.Int32" name="NoMatchBehavior">1</property>
+                <property dataType="System.String" name="SqlCommand"><![CDATA[SELECT CustomerID, CustomerKey FROM dim.DimCustomer WHERE IsCurrent = 1;]]></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_LoadOrders\LKP_CustomerKey.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SalesDwConn]"
+                  connectionManagerRefId="Package.ConnectionManagers[SalesDwConn]"
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input refId="Package\DFT_LoadOrders\LKP_CustomerKey.Inputs[Lookup Input]" name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn refId="Package\DFT_LoadOrders\LKP_CustomerKey.Inputs[Lookup Input].Columns[CustomerID]" cachedDataType="i4" cachedName="CustomerID" lineageId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output refId="Package\DFT_LoadOrders\LKP_CustomerKey.Outputs[Lookup Match Output]" name="Lookup Match Output" synchronousInputId="Package\DFT_LoadOrders\LKP_CustomerKey.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn refId="Package\DFT_LoadOrders\LKP_CustomerKey.Outputs[Lookup Match Output].Columns[CustomerKey]" dataType="i4" name="CustomerKey" lineageId="Package\DFT_LoadOrders\LKP_CustomerKey.Outputs[Lookup Match Output].Columns[CustomerKey]" />
+                  </outputColumns>
+                </output>
+                <output refId="Package\DFT_LoadOrders\LKP_CustomerKey.Outputs[Lookup No Match Output]" name="Lookup No Match Output" isErrorOut="true" />
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_LoadOrders\OLE_DST_FactOrders"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination"
+              description="Writes to SalesDW.fact.FactOrders"
+              name="OLE_DST_FactOrders"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property dataType="System.Int32" name="AccessMode">3</property>
+                <property dataType="System.String" name="OpenRowset">[fact].[FactOrders]</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SalesDwConn]"
+                  connectionManagerRefId="Package.ConnectionManagers[SalesDwConn]"
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input]" name="OLE DB Destination Input">
+                  <externalMetadataColumns>
+                    <externalMetadataColumn refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input].ExternalColumns[OrderID]" dataType="i4" name="OrderID" />
+                    <externalMetadataColumn refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input].ExternalColumns[CustomerKey]" dataType="i4" name="CustomerKey" />
+                    <externalMetadataColumn refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]" dataType="dbTimeStamp" name="OrderDate" />
+                    <externalMetadataColumn refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input].ExternalColumns[TotalAmount]" dataType="numeric" precision="12" scale="2" name="TotalAmount" />
+                    <externalMetadataColumn refId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input].ExternalColumns[Status]" dataType="wstr" length="20" name="Status" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT_LoadOrders.Paths[Source to Lookup]"
+              startId="Package\DFT_LoadOrders\OLE_SRC_Orders.Outputs[OLE DB Source Output]"
+              endId="Package\DFT_LoadOrders\LKP_CustomerKey.Inputs[Lookup Input]"
+              name="Source to Lookup" />
+            <path
+              refId="Package\DFT_LoadOrders.Paths[Lookup Match to Destination]"
+              startId="Package\DFT_LoadOrders\LKP_CustomerKey.Outputs[Lookup Match Output]"
+              endId="Package\DFT_LoadOrders\OLE_DST_FactOrders.Inputs[OLE DB Destination Input]"
+              name="Lookup Match to Destination" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+</DTS:Executable>

@@ -1,0 +1,13 @@
+[
+  {
+    "task": "SQL_TruncateDimCustomer",
+    "type": "Execute SQL Task",
+    "sql": "TRUNCATE TABLE dim.DimCustomer;"
+  },
+  {
+    "task": "DFT_LoadCustomers",
+    "component": "OLE_SRC_Customers",
+    "property": "SqlCommand",
+    "sql": "SELECT C.CustomerID, C.FullName, C.Email, CL.CountryName, SYSUTCDATETIME() AS ValidFrom\nFROM dbo.Customers C\nLEFT JOIN dbo.CountryLookup CL ON CL.CountryName = C.Country;"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "agents": {
+    "Mark":   {"persistent_name": "Mark",   "universe": "severance", "role": "Lead",            "created_at": "2026-05-26", "legacy_named": false, "status": "active"},
+    "Cobel":  {"persistent_name": "Cobel",  "universe": "severance", "role": "Azure Infra",     "created_at": "2026-05-26", "legacy_named": false, "status": "active"},
+    "Irving": {"persistent_name": "Irving", "universe": "severance", "role": "Fabric Engineer", "created_at": "2026-05-26", "legacy_named": false, "status": "active"},
+    "Dylan":  {"persistent_name": "Dylan",  "universe": "severance", "role": "Migration Eng",   "created_at": "2026-05-26", "legacy_named": false, "status": "active"},
+    "Helly":  {"persistent_name": "Helly",  "universe": "severance", "role": "Tester",          "created_at": "2026-05-26", "legacy_named": false, "status": "active"}
+  }
+}

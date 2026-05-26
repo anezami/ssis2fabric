@@ -1,0 +1,14 @@
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+Skipping primary key constraint element with no Name attribute
+TABLES (5)
+------------------------------------------------------------------------
+  Name                                                 Cols  Notes
+------------------------------------------------------------------------
+  [dbo].[CountryLookup]                                   2  
+  [dbo].[Customers]                                       5  
+  [dbo].[OrderItems]                                      5  
+  [dbo].[Orders]                                          5  
+  [dbo].[Products]                                        6  

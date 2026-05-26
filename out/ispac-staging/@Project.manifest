@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SSIS:Project xmlns:SSIS="www.microsoft.com/SqlServer/SSIS" SSIS:ProtectionLevel="DontSaveSensitive" SSIS:Version="8">
+  <SSIS:Properties>
+    <SSIS:Property SSIS:Name="ID">{99999999-9999-9999-9999-999999999001}</SSIS:Property>
+    <SSIS:Property SSIS:Name="Name">SsisDemo</SSIS:Property>
+    <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+    <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+    <SSIS:Property SSIS:Name="VersionBuild">1</SSIS:Property>
+  </SSIS:Properties>
+  <SSIS:Packages>
+    <SSIS:Package SSIS:Name="Load_Customers.dtsx" SSIS:EntryPoint="True" />
+    <SSIS:Package SSIS:Name="Load_Orders.dtsx" SSIS:EntryPoint="True" />
+    <SSIS:Package SSIS:Name="Load_Products_Scripted.dtsx" SSIS:EntryPoint="True" />
+  </SSIS:Packages>
+  <SSIS:ConnectionManagers />
+  <SSIS:Parameters />
+</SSIS:Project>

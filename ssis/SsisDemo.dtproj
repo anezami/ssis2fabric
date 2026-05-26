@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Name>SsisDemo</Name>
+    <DatabaseStorageType>SSISDB</DatabaseStorageType>
+    <ProtectionLevel>EncryptSensitiveWithUserKey</ProtectionLevel>
+    <TargetServerVersion>SQLServer2017</TargetServerVersion>
+    <ProjectVersion>1.0.0.0</ProjectVersion>
+    <PackageFormatVersion>8</PackageFormatVersion>
+  </PropertyGroup>
+  <Packages>
+    <Package>
+      <Name>Load_Customers.dtsx</Name>
+      <FullPath>packages\Load_Customers.dtsx</FullPath>
+    </Package>
+    <Package>
+      <Name>Load_Orders.dtsx</Name>
+      <FullPath>packages\Load_Orders.dtsx</FullPath>
+    </Package>
+    <Package>
+      <Name>Load_Products_Scripted.dtsx</Name>
+      <FullPath>packages\Load_Products_Scripted.dtsx</FullPath>
+    </Package>
+  </Packages>
+  <ConnectionManagers>
+    <ConnectionManager>
+      <Name>SalesSrcConn</Name>
+      <FullPath>SalesSrcConn.conmgr</FullPath>
+    </ConnectionManager>
+    <ConnectionManager>
+      <Name>SalesDwConn</Name>
+      <FullPath>SalesDwConn.conmgr</FullPath>
+    </ConnectionManager>
+    <ConnectionManager>
+      <Name>ProductsCsv</Name>
+      <FullPath>ProductsCsv.conmgr</FullPath>
+    </ConnectionManager>
+  </ConnectionManagers>
+  <ProjectParameters>
+    <FullPath>SsisDemo.params</FullPath>
+  </ProjectParameters>
+</Project>

@@ -1,0 +1,7 @@
+{
+  "CountryLookup": 20,
+  "Customers": 500,
+  "Products": 100,
+  "Orders": 2000,
+  "OrderItems": 6000
+}

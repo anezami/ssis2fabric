@@ -1,0 +1,32 @@
+{
+  "value": [
+    {
+      "displayName": "fabriccapacitydbxtest",
+      "id": "469690b2-3d1d-412a-8785-12a3d6419f50",
+      "region": "West US 3",
+      "sku": "F2",
+      "state": "Inactive"
+    },
+    {
+      "displayName": "fabcapacitywus3",
+      "id": "c77a0c8f-fb78-4e6b-b75b-11a4b1f428c7",
+      "region": "West US 3",
+      "sku": "F2",
+      "state": "Active"
+    },
+    {
+      "displayName": "Premium Per User - Reserved",
+      "id": "b9fd9642-ab5a-4f5b-aaa2-e3b4131f6720",
+      "region": "West US 3",
+      "sku": "PP3",
+      "state": "Active"
+    },
+    {
+      "displayName": "Trial-20260502T104746Z-okkKC0F53ECxDNmamXPdbA",
+      "id": "b9b036d4-0954-4133-8f31-f4c13da65c99",
+      "region": "West US 3",
+      "sku": "FTL64",
+      "state": "Active"
+    }
+  ]
+}

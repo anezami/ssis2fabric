@@ -1,0 +1,20 @@
+{
+  "workspaceId": "c9bd4043-11bf-483d-bfca-1c2b2490c3af",
+  "workspaceName": "ws-ssis2fabric-demo",
+  "capacityId": "c77a0c8f-fb78-4e6b-b75b-11a4b1f428c7",
+  "capacityName": "fabcapacitywus3",
+  "warehouseId": "60a68a69-2fc7-42ec-8f34-dff6a219ac76",
+  "warehouseName": "wh_ssis_demo",
+  "warehouseSqlEndpointServer": "2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com",
+  "warehouseSqlEndpointConnectionString": "Server=tcp:2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com,1433;Initial Catalog=wh_ssis_demo;Encrypt=True;Trust Server Certificate=False;Connection Timeout=30;",
+  "lakehouseId": "e3fcb33a-13d8-4967-add9-5efed6fcac65",
+  "lakehouseName": "lh_ssis_demo",
+  "lakehouseSqlAnalyticsEndpoint": "2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com",
+  "lakehouseSqlAnalyticsEndpointId": "90a5764e-4d65-4e16-910d-538bb04a7825",
+  "lakehouseSqlAnalyticsEndpointServer": "2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com",
+  "lakehouseSqlAnalyticsEndpointConnectionString": "Server=tcp:2cmo46ndvemuvau5r4jl6j4dx4-inal3sn7ce6urp6kdqvsjegdv4.datawarehouse.fabric.microsoft.com,1433;Initial Catalog=lh_ssis_demo;Encrypt=True;Trust Server Certificate=False;Connection Timeout=30;",
+  "lakehouseOneLakePath": "abfss://ws-ssis2fabric-demo@onelake.dfs.fabric.microsoft.com/lh_ssis_demo.Lakehouse",
+  "notebookId": "7d805094-17be-46b1-949d-aa710324f393",
+  "notebookName": "nb_ssis_demo_migration",
+  "generatedAtUtc": "2026-05-26T13:34:42.1107921Z"
+}
