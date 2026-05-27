@@ -617,3 +617,19 @@ own SSIS project. Three links to bookmark:
 
 Happy migrating. If you find a gotcha that isn't on the list in
 §7, send it back — every team that follows you will benefit.
+
+---
+
+## Presentation
+
+A DECKIO presentation deck covering this end-to-end story (problem,
+both Fabric paths, validation, lessons) lives in [`deck/`](./deck/).
+To view it locally:
+
+```powershell
+cd deck
+npm install
+npm run dev
+```
+
+Then open <http://localhost:5173/>.
