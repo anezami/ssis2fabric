@@ -43,6 +43,26 @@
 **By:** Helly
 **What:** End-to-end validation approved with notes. Fabric Warehouse and Fabric Lakehouse aggregates match byte-for-byte for DimProduct, DimCustomer, and FactOrders; migration-quality notes are non-blocking correctness observations.
 **Why:** Confirms the demo is ready with both Fabric flavors passing aggregate validation; live VM source re-query remains noted as environment-limited from the reviewer host.
+### 2026-05-26: Bastion Setup for vm-ssis-demo
+**By:** Cobel (Azure Infra)
+**Status:** Implemented
+**What:** Deploy Azure Bastion (Standard SKU) into the existing VNet to provide browser-based and native-client RDP without exposing port 3389 to the internet. Bastion host `bastion-ssis-demo` in subnet `AzureBastionSubnet` `10.31.1.0/26` with public IP `20.169.19.6`. Standard Bastion cost ~$0.19/hr (~$140/mo).
+
+### 2026-05-26: Customer README published at repo root
+**By:** Mark
+**Status:** Done
+**What:** Customer-facing migration README written to `README.md` at repo root (619 lines). Polished, externally-shareable counterpart to `migration/MIGRATION.md`. All GUIDs, IPs, hostnames and passwords replaced with placeholders. Walks customer through ssis-analyzer, dacpac-analyzer, spec-writer, Fabric provisioning, and both Flavor A (Warehouse T-SQL) and Flavor B (Lakehouse PySpark) deployment with validation.
+
+### 2026-05-27: Presentation deck — DECKIO
+**By:** Mark
+**Status:** Done
+**What:** Built DECKIO presentation deck (12 slides) for customer narrative, committed to master. Scaffolded at `deck/`, sourced from README.md (no Severance/squad references). Slides cover problem, demo scope, architectures, both Fabric flavors, comparison, validation, live demo flow, lessons, and next steps. Smoke-tested with `npm run dev`; pushed as `892a43a`.
+
+### 2026-05-26: Private Repo Creation
+**By:** Scribe (Copilot)
+**Status:** Completed
+**What:** Created private GitHub repository at https://github.com/anezami/ssis2fabric. All commits pushed to origin/master via GitHub CLI (gh). Visibility confirmed as PRIVATE.
+
 ## Governance
 
 - All meaningful changes require team consensus
