@@ -1,2 +1,75 @@
 @import '@deckio/deck-engine/styles/global.css';
 @import '@deckio/deck-engine/themes/fabric.css';
+
+/*
+ * Dark-mode override for the Fabric theme.
+ * Keeps Fabric typography + token names, swaps the palette to a near-black
+ * canvas with Microsoft Fabric teal (primary/accent) and purple (decorative).
+ * All slides consume var(--…) tokens, so this single block re-skins the deck.
+ */
+:root {
+  color-scheme: dark;
+
+  --background:              #0a0e1a;
+  --foreground:              #e6edf3;
+  --card:                    #141a28;
+  --card-foreground:         #e6edf3;
+  --primary:                 #00B7C3;
+  --primary-foreground:      #06121a;
+  --secondary:               #1a2335;
+  --secondary-foreground:    #e6edf3;
+  --muted:                   #1f2738;
+  --muted-foreground:        #9aa6bc;
+  --accent:                  #00B7C3;
+  --accent-foreground:       #06121a;
+  --destructive:             #f4364c;
+  --destructive-foreground:  #ffffff;
+  --border:                  #2a3349;
+  --input:                   #2a3349;
+  --ring:                    rgba(0, 183, 195, 0.45);
+
+  --blue-accent:    #2899F5;
+  --purple-accent:  #B084CC;
+  --yellow-accent:  #FFB900;
+  --red-accent:     #F4364C;
+  --green-accent:   #8DE971;
+  --blue-glow:      #2899F5;
+  --purple:         #B084CC;
+  --purple-deep:    #742774;
+  --pink:           #F778BA;
+  --cyan:           #00B7C3;
+  --green:          #3FB950;
+
+  --surface-overlay:         rgba(20, 26, 40, 0.85);
+  --surface-overlay-heavy:   rgba(20, 26, 40, 0.96);
+  --background-overlay:      rgba(10, 14, 26, 0.88);
+  --border-subtle:           rgba(255, 255, 255, 0.08);
+  --glow-primary:            rgba(0, 183, 195, 0.18);
+  --glow-primary-strong:     rgba(0, 183, 195, 0.28);
+  --glow-primary-shadow:     rgba(0, 183, 195, 0.22);
+  --glow-ring:               rgba(0, 183, 195, 0.22);
+  --glow-accent:             rgba(0, 183, 195, 0.16);
+  --glow-purple:             rgba(116, 39, 116, 0.22);
+  --glow-cyan:               rgba(0, 183, 195, 0.16);
+  --dot-color:               rgba(154, 166, 188, 0.18);
+  --destructive-subtle:      rgba(244, 54, 76, 0.10);
+  --shadow-elevated:         0 8px 28px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+::selection {
+  background: rgba(0, 183, 195, 0.40);
+  color: #ffffff;
+}
+
+/* Code blocks tuned for the dark canvas */
+code, pre {
+  background: #0d1422;
+  border-color: var(--border-subtle);
+  color: #e6edf3;
+}
+code { color: #7ee0e7; }
+pre code { color: inherit; }
+
+/* Links: tealified, with purple hover */
+a { color: var(--cyan); text-decoration-color: var(--purple); }
+a:hover { color: var(--purple); }

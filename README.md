@@ -12,6 +12,76 @@ Services (SSIS) workload onto **Microsoft Fabric**, driven by the
 
 ---
 
+## 0. End-to-end flow at a glance
+
+```mermaid
+%%{init: {'theme':'dark', 'themeVariables': {
+  'primaryColor':'#142033',
+  'primaryTextColor':'#e6edf3',
+  'primaryBorderColor':'#00B7C3',
+  'lineColor':'#9aa6bc',
+  'secondaryColor':'#1a2335',
+  'tertiaryColor':'#0a0e1a',
+  'fontFamily':'Segoe UI, Inter, sans-serif'
+}}}%%
+flowchart LR
+    subgraph SRC["🖥️  Azure VM"]
+        SQL["SQL Server 2022<br/>+ SSIS runtime"]
+        ISPAC["📦 .ispac / .dtsx<br/>packages"]
+        SQL --> ISPAC
+    end
+
+    subgraph SKILL["🧠  ssis-migration skill<br/>(GitHub Copilot)"]
+        AN["ssis-analyzer<br/>(DTSX → JSON)"]
+        DA["dacpac-analyzer<br/>(.bacpac → JSON)"]
+        SW["spec-writer<br/>(→ Markdown IR)"]
+        AN --> SW
+        DA --> SW
+    end
+
+    SPECS["📑 Shared spec set<br/>CONSTITUTION + per-table"]
+
+    subgraph WH["🏛️  Path A · Fabric Warehouse"]
+        TSQL["T-SQL: CREATE TABLE<br/>MERGE · stored procs"]
+        PIPE["Fabric Data Pipeline<br/>Copy + ForEach + SP"]
+    end
+
+    subgraph LH["🌊  Path B · Fabric Lakehouse"]
+        PYSPARK["PySpark notebook"]
+        DELTA["Delta tables on OneLake<br/>SparkSQL views"]
+        PYSPARK --> DELTA
+    end
+
+    WS["🟪 Fabric Workspace<br/>ws-ssis2fabric-demo"]
+
+    ISPAC -->|export| AN
+    ISPAC -->|sqlpackage| DA
+    SW --> SPECS
+    SPECS -->|Flavor A| TSQL
+    TSQL --> PIPE
+    SPECS -->|Flavor B| PYSPARK
+    PIPE --> WS
+    DELTA --> WS
+
+    classDef src    fill:#142033,stroke:#2899F5,color:#e6edf3
+    classDef skill  fill:#1a1530,stroke:#B084CC,color:#e6edf3
+    classDef spec   fill:#0d1b22,stroke:#00B7C3,color:#e6edf3
+    classDef wh     fill:#0c2226,stroke:#00B7C3,color:#e6edf3
+    classDef lh     fill:#1a1530,stroke:#B084CC,color:#e6edf3
+    classDef ws     fill:#19132b,stroke:#742774,color:#e6edf3,font-weight:bold
+
+    class SQL,ISPAC src
+    class AN,DA,SW skill
+    class SPECS spec
+    class TSQL,PIPE wh
+    class PYSPARK,DELTA lh
+    class WS ws
+```
+
+*One source. One spec set. Two Fabric targets. Validated end-to-end.*
+
+---
+
 ## 1. What this is
 
 This repository is a **reference demo** that takes a small but realistic
@@ -100,6 +170,131 @@ teams land raw data in the Lakehouse and curate into the Warehouse.
                        │   parity across all three    │
                        └──────────────────────────────┘
 ```
+
+---
+
+## 3a. How the conversion works
+
+The `ssis-migration` skill does not "translate line-by-line". It treats the
+SSIS project as XML, lifts it into a typed **intermediate representation
+(IR)**, and then emits target-shaped artifacts deterministically. The same
+IR drives both Fabric build passes.
+
+### Source side — what's actually in an SSIS package
+
+A `.dtsx` is XML. The skill parses three things out of it:
+
+* **Control Flow** — `Execute SQL Task`, `Data Flow Task`, `Foreach Loop`,
+  `Script Task`, `Sequence`, precedence constraints.
+* **Data Flow components** — `OLE DB Source/Destination`, `Flat File
+  Source`, `Derived Column`, `Lookup`, `Conditional Split`, `Aggregate`,
+  `Sort`, `Merge`/`Union All`, `Script Component`.
+* **Project metadata** — connection managers, project params, package
+  params, variables, expressions.
+
+The companion `.bacpac` (via `dacpac-analyzer`) contributes the **schema
+side**: table DDL, indexes, FKs, defaults, stored procs, views.
+
+### What the skill emits
+
+```
+.dtsx + .bacpac
+        │
+        ▼     (ssis-analyzer / dacpac-analyzer)
+   typed JSON IR (control flow graph + dataflow lineage + schema)
+        │
+        ▼     (spec-writer)
+   migration/specs/   ← single source of truth (Markdown)
+        │
+        ├──► T-SQL pass  → migration/warehouse/*.sql + pipeline JSON
+        └──► PySpark pass → migration/lakehouse/*.ipynb + Delta paths
+```
+
+The Markdown specs are runtime-agnostic. Each table spec carries:
+**source query, key columns, SCD policy, derived columns, lookups, target
+shape**. Either target can be regenerated from the same spec.
+
+### Side-by-side mapping table
+
+| SSIS component | Fabric Warehouse (T-SQL) | Fabric Lakehouse (SparkSQL / PySpark) |
+|---|---|---|
+| **OLE DB Source** | `Copy Activity` in Data Pipeline → staging table | `spark.read.jdbc(...)` or `spark.read.parquet(...)` |
+| **OLE DB Destination** | `INSERT … SELECT` / `MERGE` from staging | `df.write.format("delta").mode("...").save(path)` |
+| **Flat File Source** | `Copy Activity` (delimited file → table) | `spark.read.option("header", true).csv(path)` |
+| **Derived Column** | `CASE WHEN … THEN … END` in projection | `df.withColumn("c", when(...).otherwise(...))` |
+| **Lookup** | `LEFT JOIN` against dim staging | `df.join(dim, "key", "left")` |
+| **Conditional Split** | `WHERE` clauses / branched INSERTs | `df.filter(...)` per branch |
+| **Aggregate** | `GROUP BY` / window functions | `df.groupBy(...).agg(...)` |
+| **Sort** | `ORDER BY` (or `ROW_NUMBER()` for surrogate keys) | `df.orderBy(...)` |
+| **Merge / Union All** | `UNION ALL` in select | `df1.unionByName(df2)` |
+| **Execute SQL Task** | Stored procedure (`CREATE PROCEDURE`) | `spark.sql("...")` cell |
+| **Foreach Loop** | Pipeline `ForEach` activity | Python `for` over a list |
+| **Script Task / Component** | Stored proc, or pipeline notebook step | Native PySpark cell |
+| **Connection Manager** | Linked service in pipeline | Spark conf / OneLake path |
+| **Project / Package Param** | Pipeline parameter | Notebook parameter cell |
+
+### Worked example — a Derived Column three ways
+
+**SSIS Derived Column** (the expression the package author actually wrote):
+
+```text
+Tier = TotalSpend > 10000 ? "Platinum"
+     : TotalSpend >  5000 ? "Gold"
+     :                      "Standard"
+```
+
+**Target A — Fabric Warehouse (T-SQL)** — emitted into the staging-to-dim
+stored procedure:
+
+```sql
+SELECT
+    CustomerKey,
+    CustomerName,
+    TotalSpend,
+    CASE
+        WHEN TotalSpend > 10000 THEN 'Platinum'
+        WHEN TotalSpend >  5000 THEN 'Gold'
+        ELSE                         'Standard'
+    END AS Tier
+FROM stg.Customer;
+```
+
+**Target B — Fabric Lakehouse (PySpark + SparkSQL)** — emitted into the
+notebook cell that builds `DimCustomer`:
+
+```python
+from pyspark.sql.functions import col, when
+
+df = (spark.read.format("delta").load(f"{lh}/stg_Customer")
+       .withColumn(
+           "Tier",
+           when(col("TotalSpend") > 10000, "Platinum")
+           .when(col("TotalSpend") >  5000, "Gold")
+           .otherwise("Standard"),
+       ))
+
+df.write.format("delta").mode("overwrite").save(f"{lh}/DimCustomer")
+```
+
+Or, equivalently, as SparkSQL on a registered view:
+
+```sql
+CREATE OR REPLACE TABLE DimCustomer USING DELTA AS
+SELECT
+    CustomerKey,
+    CustomerName,
+    TotalSpend,
+    CASE
+        WHEN TotalSpend > 10000 THEN 'Platinum'
+        WHEN TotalSpend >  5000 THEN 'Gold'
+        ELSE                         'Standard'
+    END AS Tier
+FROM stg_Customer;
+```
+
+Same business rule, three surfaces — the skill keeps semantics identical
+across them, which is what makes the byte-identical aggregate parity
+possible.
 
 ---
 

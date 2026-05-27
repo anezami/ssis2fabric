@@ -1,8 +1,11 @@
 import CoverSlide from './src/slides/CoverSlide.jsx'
+import E2EFlowSlide from './src/slides/E2EFlowSlide.jsx'
 import ProblemSlide from './src/slides/ProblemSlide.jsx'
 import DemoScopeSlide from './src/slides/DemoScopeSlide.jsx'
 import SourceArchitectureSlide from './src/slides/SourceArchitectureSlide.jsx'
 import MigrationToolSlide from './src/slides/MigrationToolSlide.jsx'
+import ConversionSlide from './src/slides/ConversionSlide.jsx'
+import ConversionExampleSlide from './src/slides/ConversionExampleSlide.jsx'
 import WarehousePathSlide from './src/slides/WarehousePathSlide.jsx'
 import LakehousePathSlide from './src/slides/LakehousePathSlide.jsx'
 import ComparisonSlide from './src/slides/ComparisonSlide.jsx'
@@ -20,16 +23,19 @@ export default {
     contentStatus: 'final',
   },
   icon: '🛠',
-  accent: '#49C5B1',
+  accent: '#00B7C3',
   theme: 'fabric',
-  appearance: 'light',
+  appearance: 'dark',
   order: 1,
   slides: [
     CoverSlide,
+    E2EFlowSlide,
     ProblemSlide,
     DemoScopeSlide,
     SourceArchitectureSlide,
     MigrationToolSlide,
+    ConversionSlide,
+    ConversionExampleSlide,
     WarehousePathSlide,
     LakehousePathSlide,
     ComparisonSlide,
